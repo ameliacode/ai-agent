@@ -148,8 +148,6 @@ def _graph_context_records(query: str, project_id: str | None) -> list[dict]:
         return []
     try:
         import kg_indexer
-        import knowledge_graph as _kg
-        graph = _kg.load()
         texts = kg_indexer.search_relevant(query, project_id, limit=5)
         records = []
         for i, text in enumerate(texts):
