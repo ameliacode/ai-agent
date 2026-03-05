@@ -1,7 +1,7 @@
 """Superlinked semantic index for knowledge graph nodes (concepts + papers).
 
 Keeps a persistent in-memory index of concept texts and paper summary texts,
-enabling top-K relevance-ranked seeding for deep_research iterations.
+enabling top-K relevance-ranked seeding for research iterations.
 """
 
 import logging
@@ -52,20 +52,16 @@ app = _executor.run()
 
 
 def upsert(records: list[dict]) -> None:
-    """Add or update records in the KG index.
-
-    Each record must have: {id, text, project_id, node_type}.
-    """
+    """Index or update records. Each record: {id, text, project_id, node_type}."""
     if not records:
         return
     for batch in [records[i:i + 20] for i in range(0, len(records), 20)]:
         _source.put([pd.DataFrame(batch)])
-    logging.info(f"kg_indexer: upserted {len(records)} records.")
+    logging.info(f"graph_index: upserted {len(records)} records.")
 
 
-def search_relevant(query: str, project_id: str, limit: int = 15) -> list[str]:
-    """Return top-`limit` text strings from this project most relevant to query."""
-    # Fetch more than needed so post-filtering still yields `limit` results
+def search(query: str, project_id: str, limit: int = 15) -> list[str]:
+    """Return top-`limit` texts from this project most relevant to query."""
     results = app.query(
         kg_query,
         search_query=query,
@@ -74,6 +70,5 @@ def search_relevant(query: str, project_id: str, limit: int = 15) -> list[str]:
     )
     if results.empty:
         return []
-    # Filter to this project only
     filtered = results[results["project_id"] == project_id]
     return filtered["text"].head(limit).tolist()

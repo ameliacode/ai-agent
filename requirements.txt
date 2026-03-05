@@ -2,7 +2,7 @@
 langchain
 langchain-core
 langchain-community
-langchain-openai
+langchain-ollama
 langgraph
 pandas
 openpyxl
@@ -10,7 +10,6 @@ python-dotenv
 python-docx
 pypdf
 requests
-tiktoken
 certifi
 arxiv
 superlinked==19.21.1

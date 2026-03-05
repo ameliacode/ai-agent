@@ -1,6 +1,6 @@
-from langgraph.prebuilt import create_react_agent  # noqa: F401 (deprecated import path, still functional in V1.x)
+from langgraph.prebuilt import create_react_agent
 
-from llm import LLM
+from core.llm import LLM
 from tools import TOOLS
 
 agent = create_react_agent(LLM, TOOLS)

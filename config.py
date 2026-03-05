@@ -8,7 +8,7 @@ load_dotenv()
 os.environ["SSL_CERT_FILE"] = certifi.where()
 os.environ["REQUESTS_CA_BUNDLE"] = certifi.where()
 
-MODEL = os.getenv("MODEL", "gpt-4o-mini")
+MODEL = os.getenv("MODEL", "llama3.2")
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DOCS_DIR = os.getenv("DOCS_DIR", os.path.join(BASE_DIR, "docs"))

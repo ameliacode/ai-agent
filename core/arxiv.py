@@ -24,10 +24,10 @@ def _to_record(paper: arxiv.Result) -> dict:
     }
 
 
-def search_arxiv(query: str, max_results: int = 20, categories: list[str] | None = None) -> list[dict]:
-    search = arxiv.Search(query=query, max_results=max_results, sort_by=arxiv.SortCriterion.SubmittedDate)
+def search(query: str, max_results: int = 20, categories: list[str] | None = None) -> list[dict]:
+    s = arxiv.Search(query=query, max_results=max_results, sort_by=arxiv.SortCriterion.SubmittedDate)
     records = []
-    for paper in _client.results(search):
+    for paper in _client.results(s):
         if categories and not any(c in paper.categories for c in categories):
             continue
         records.append(_to_record(paper))
@@ -44,4 +44,4 @@ def fetch_by_id(arxiv_id: str) -> dict | None:
 
 
 def fetch_by_category(category: str, max_results: int = 20) -> list[dict]:
-    return search_arxiv(f"cat:{category}", max_results=max_results)
+    return search(f"cat:{category}", max_results=max_results)

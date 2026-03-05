@@ -1,7 +1,7 @@
 from langchain_core.tools import tool
 
-from indexer import search
-from llm import ask
+from core.index import search
+from core.llm import ask
 
 
 @tool
@@ -22,16 +22,16 @@ def summarize_docs(query: str) -> str:
     try:
         results = search(query)
         if results.empty:
-            return "No relevant documents found to summarize."
+            return "No relevant documents found."
         context = "\n\n".join(results["text"].tolist())
-        return ask(f"Summarize the following document excerpts concisely:\n\n{context}")
+        return ask(f"Summarize concisely:\n\n{context}")
     except Exception as e:
         return f"Summarization error: {e}"
 
 
 @tool
 def ask_docs(query: str) -> str:
-    """Answer a specific research question using document context."""
+    """Answer a research question using indexed document context."""
     try:
         results = search(query)
         context = (
@@ -39,6 +39,6 @@ def ask_docs(query: str) -> str:
             if not results.empty
             else "No documents found. Use general knowledge."
         )
-        return ask(f"Answer using the provided context.\n\nContext:\n{context}\n\nQuestion: {query}")
+        return ask(f"Answer using context.\n\nContext:\n{context}\n\nQuestion: {query}")
     except Exception as e:
         return f"QA error: {e}"

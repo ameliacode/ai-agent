@@ -220,7 +220,7 @@ A project after 10 sessions may have 500+ concept nodes. Sending all 500 as LLM 
 | `list_projects` | Show all projects with concept / paper / ticket counts |
 | `research_project` | Full iterative deep research scoped to a project |
 | `create_ticket` | Manually create a human action item |
-| `get_my_todos` | List open tickets — answers "내가 할일이 뭐야?" |
+| `get_my_todos` | List all open tickets and action items |
 | `close_ticket` | Mark a ticket as done |
 
 ### arxiv & Document Search
@@ -260,10 +260,12 @@ cp .env.example .env
 
 `.env`:
 ```env
-OPENAI_API_KEY=sk-...
-MODEL=gpt-4o-mini        # optional, default: gpt-4o-mini
-DOCS_DIR=./docs          # optional: local docs indexed on startup
+GOOGLE_API_KEY=AIza...
+MODEL=gemini-2.0-flash-lite   # optional, default: gemini-2.0-flash-lite
+DOCS_DIR=./docs               # optional: local docs indexed on startup
 ```
+
+Get a free API key at [aistudio.google.com](https://aistudio.google.com) — free tier: 15 req/min · 500 req/day · 250k tokens/min.
 
 ---
 
@@ -337,7 +339,7 @@ Full report: /path/to/report.md
 ### 3. Check your todo list
 
 ```
-내가 할일이 뭐야?
+what are my todos?
 ```
 or
 ```
@@ -429,6 +431,7 @@ research_project(project_id, query, breadth=4, depth=2)
 |---|---|
 | `data/knowledge_graph.json` | All nodes (projects, papers, concepts, tickets) and edges as JSON |
 | `data/knowledge_map.md` | Auto-generated human-readable view with paper method/result/weakness |
+| `data/workflows/{project_id}.md` | Cumulative research blueprint — updated every session (long-term memory) |
 | `report.md` | Markdown research report (Summary, Key Findings, Open Questions, References) |
 
 ---
